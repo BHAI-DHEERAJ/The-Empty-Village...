@@ -1,0 +1,141 @@
+/* Gear within reach of the left thumb, movement actions on the right.
+   The control groups and their gaps don't intercept drag-to-look. */
+.touch-controls { display: none; }
+.game-shell[data-mode='touch'] {
+  --touch-left: max(clamp(12px, 3.2vw, 24px), calc(env(safe-area-inset-left) + 8px));
+  --touch-right: max(clamp(12px, 3.2vw, 24px), calc(env(safe-area-inset-right) + 8px));
+  --touch-top: max(12px, calc(env(safe-area-inset-top) + 6px));
+  --touch-bottom: max(14px, calc(env(safe-area-inset-bottom) + 8px));
+  --touch-stick-size: clamp(126px, 37vw, 170px);
+  --touch-key-size: clamp(60px, 18.5vw, 82px);
+  --touch-use-size: clamp(46px, 13.6vw, 56px);
+  --touch-gear-size: clamp(45px, 13.6vw, 55px);
+  --touch-gap: clamp(7px, 2.3vw, 10px);
+  --touch-action-width: calc(var(--touch-key-size) * 2 + var(--touch-gap));
+  --touch-height: max(calc(var(--touch-stick-size) + var(--touch-gear-size) + var(--touch-gap)), calc(var(--touch-key-size) + var(--touch-use-size) + var(--touch-gap)));
+}
+.game-shell[data-mode='touch'] :is(.play-hint,.compass,#phone-button,#flashlight-button) { display: none; }
+.game-shell[data-mode='touch'] .hud-top { inset: var(--touch-top) var(--touch-right) auto var(--touch-left); }
+.game-shell[data-mode='touch'] .hud-actions { gap: 5px; }
+.game-shell[data-mode='touch'] .hud-actions .icon-button { width: clamp(39px,11.3vw,46px); height: clamp(39px,11.3vw,46px); border-radius: 9px; background-color: #141c18ed; }
+.game-shell[data-mode='touch'] .hud-actions .icon-button[aria-pressed='true'] { color: #f0cf99; border-color: #bba07586; }
+.game-shell[data-mode='touch'] .field-hud {
+  --mini-map-height: clamp(86px,27vw,137px);
+  top: calc(var(--touch-top) + 53px);
+  left: var(--touch-left);
+  width: min(445px,calc(100% - var(--touch-left) - var(--touch-right)));
+  grid-template-columns: minmax(0,.91fr) minmax(0,1fr);
+}
+.game-shell[data-mode='touch'] .settings-box { top: calc(var(--touch-top) + 52px); right: var(--touch-right); }
+.game-shell[data-mode='touch'] .journal { top: calc(var(--touch-top) + 52px); left: var(--touch-left); }
+.game-shell[data-mode='touch'] .touch-controls {
+  position: absolute;
+  z-index: 5;
+  inset: auto var(--touch-right) var(--touch-bottom) var(--touch-left);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.touch-movement,.touch-actions,.touch-gear { display: grid; gap: var(--touch-gap); pointer-events: none; }
+.touch-movement { width: var(--touch-stick-size); flex: none; }
+.touch-gear { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.touch-actions { grid-template-columns: repeat(2,var(--touch-key-size)); }
+.touch-key {
+  position: relative;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 4px;
+  border: 1px solid #c3af7e91;
+  border-radius: 13px;
+  padding: 4px;
+  background: linear-gradient(163deg,#30372af2,#151d18f5 85%);
+  color: #f8e2bb;
+  box-shadow: inset 0 1px #e6d7ab30, inset 0 -3px #080e0c65, 0 3px 12px #080d0a75;
+  cursor: pointer;
+  pointer-events: auto;
+  touch-action: none;
+}
+.touch-key svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.65; stroke-linecap: round; stroke-linejoin: round; }
+.touch-key span { font-size: 12px; font-weight: 600; line-height: 1.10; }
+.touch-key:not(:disabled):active,.touch-run[aria-pressed='true'] { border-color: #fff0bf; color: #1d261c; background: #d9cb95; box-shadow: inset 0 0 0 2px #fbecc769,0 0 16px #d2bf6a46; }
+.touch-gear .touch-key { height: var(--touch-gear-size); gap: 3px; border-radius: 10px; }
+.touch-gear .touch-key svg { width: 21px; height: 21px; }
+.touch-gear .touch-key span { font-size: 11px; }
+.touch-light[aria-pressed='true'] { border-color: #d8c58e; color: #ffe7af; background: linear-gradient(160deg,#525235,#292e1f); }
+.touch-light[aria-pressed='true']::after {
+  content: ''; position: absolute; right: 6px; top: 6px; width: 5px; height: 5px;
+  border-radius: 50%; background: #e5d49a; box-shadow: 0 0 6px #f2d99386;
+}
+.touch-run,.touch-jump { height: var(--touch-key-size); }
+.touch-actions .touch-use {
+  grid-column: 1 / -1;
+  height: var(--touch-use-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 12px;
+  border-color: #f4d59b;
+  background: linear-gradient(152deg,#f1d6a1,#c3a467);
+  color: #21180e;
+  box-shadow: inset 0 1px #fff5ceab, inset 0 -3px #6955295e, 0 5px 14px #14130b94;
+}
+.touch-actions .touch-use span { font-size: 14px; }
+.touch-use:disabled,.touch-gear .touch-key:disabled {
+  pointer-events: none;
+  opacity: .72;
+  color: #bbbba9;
+  border-color: #918b6c7d;
+  background: #171f1bdd;
+  box-shadow: inset 0 1px #e0d1a41c;
+}
+.touch-stick {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--touch-stick-size);
+  height: var(--touch-stick-size);
+  overflow: hidden;
+  border: 1px solid #d2b887a3;
+  border-radius: 50%;
+  background: radial-gradient(circle,#151f18ed 0 42%,#222b22db 43% 57%,#1b241ccc 58% 69%,#384031db 70%);
+  box-shadow: inset 0 0 0 4px #11191394, inset 0 5px 22px #b8a47924, 0 5px 15px #0a100b9c;
+  pointer-events: auto;
+  touch-action: none;
+}
+.touch-stick[data-held] { border-color: #e5cd90; box-shadow: inset 0 0 0 4px #0d150e92, inset 0 0 19px #d1bd6b33,0 5px 15px #0a100b9c; }
+.stick-dial { position: absolute; inset: 1px; width: calc(100% - 2px); height: calc(100% - 2px); fill: none; stroke: #d1bd868c; stroke-width: .75; }
+.stick-dial circle:nth-child(2) { stroke: #d1bd8645; stroke-dasharray: .9 2.7; }
+.touch-stick > span {
+  position: absolute;
+  bottom: 9px;
+  padding-inline: 6px;
+  line-height: 1.25;
+  border-radius: 4px;
+  background: #202a22;
+  color: #eedeba;
+  font-size: 11px;
+  font-weight: 600;
+}
+.stick-dial,.touch-stick > span,.touch-stick i { pointer-events: none; }
+.touch-stick i {
+  display: grid;
+  place-items: center;
+  position: relative;
+  width: clamp(46px,calc(var(--touch-stick-size) * .40),64px);
+  aspect-ratio: 1;
+  border: 1px solid #e7cf9cb3;
+  border-radius: 50%;
+  background: radial-gradient(circle at 39% 33%,#67684b 0 36%,#4c4e36 58%,#282f23 100%);
+  color: #e5d2a3;
+  box-shadow: inset 0 0 0 4px #1d271e65,inset 0 0 0 5px #efe0a347,0 3px 11px #080e0ad4;
+}
+.touch-stick[data-held] i { background: radial-gradient(circle at 41% 33%,#91825a,#4c5038 69%); }
+.touch-stick i svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.3; stroke-linejoin: round; stroke-linecap: round; }
+.game-shell[data-mode='touch']:not([data-story]) :is(.evidence-note,.voice-caption,.haunt-clue) { top: auto; bottom: calc(var(--touch-bottom) + var(--touch-height) + 10px); }
+.game-shell[data-mode='touch'] .evidence-note { left: var(--touch-left); width: min(355px,calc(100% - var(--touch-left) - var(--touch-right))); }
+.game-shell[data-mode='touch']:not([data-story]) .voice-caption { width: min(350px,calc(100% - var(--touch-left) - var(--touch-right))); }
+.game-shell[data-mode='touch']:not([data-story]):has(.evidence-note:not([hidden])) :is(.haunt-clue,.voice-caption) { bottom: calc(var(--touch-bottom) + var(--touch-height) + 120px); }
+.game-shell[data-mode='touch'] .haunt-clue { margin-bottom: 2px; }

@@ -1,0 +1,255 @@
+/* A wide touch layout keeps the road, reticle and swipe area between the
+   two thumb clusters clear. It does not force orientation or fullscreen. */
+@media (orientation: landscape) and (min-width: 480px) {
+  .game-shell[data-mode='touch'] {
+    --touch-left: max(clamp(12px,2.5vw,27px),calc(env(safe-area-inset-left) + 9px));
+    --touch-right: max(clamp(12px,2.5vw,27px),calc(env(safe-area-inset-right) + 9px));
+    --touch-top: max(10px,calc(env(safe-area-inset-top) + 7px));
+    --touch-bottom: max(12px,calc(env(safe-area-inset-bottom) + 8px));
+    --touch-stick-size: clamp(88px,32dvh,145px);
+    --touch-key-size: clamp(48px,15dvh,64px);
+    --touch-gear-size: 44px;
+    --touch-use-size: clamp(44px,13dvh,52px);
+    --touch-gap: clamp(6px,1.2vw,10px);
+    --land-tool: 44px;
+    --land-toolbar-width: calc(4 * var(--land-tool) + 3 * var(--touch-gap));
+    --land-map-width: clamp(105px,19vw,166px);
+    --land-safe-width: calc(100% - var(--touch-left) - var(--touch-right));
+    --land-safe-height: calc(100dvh - var(--touch-top) - var(--touch-bottom));
+    --land-note-start: calc(var(--touch-left) + var(--touch-stick-size) + var(--touch-gear-size) + var(--touch-gap) + 10px);
+    --land-note-width: calc(100% - var(--land-note-start) - var(--touch-right) - var(--touch-action-width) - 10px);
+  }
+
+  .game-shell[data-mode='touch'] .hud-actions { gap: var(--touch-gap); }
+  .game-shell[data-mode='touch'] .hud-actions .icon-button {
+    width: var(--land-tool); height: var(--land-tool); border-radius: 12px;
+    background-color: #121b17de; border-color: #d0bb885c;
+  }
+  .game-shell[data-mode='touch'] .field-hud {
+    --mini-map-height: clamp(39px,19dvh,112px);
+    top: var(--touch-top); left: var(--touch-left);
+    width: min(calc(var(--land-map-width) + 192px),calc(var(--land-safe-width) - var(--land-toolbar-width) - 10px));
+    grid-template-columns: var(--land-map-width) minmax(0,1fr);
+  }
+  .game-shell[data-mode='touch'] .mini-map {
+    position: relative; padding: 4px; border-radius: 12px; background: #121a16eb;
+  }
+  .game-shell[data-mode='touch'] .mini-map-top { min-height: 21px; padding-bottom: 2px; font-size: 11px; }
+  .game-shell[data-mode='touch'] .map-north { inset: 3px 3px auto auto; }
+  .game-shell[data-mode='touch'] .mini-map-foot {
+    position: absolute; z-index: 1; inset: auto 9px 8px auto; min-height: 0; padding: 2px;
+    background: #171f19df; border-radius: 4px;
+  }
+  .game-shell[data-mode='touch'] .mini-map-foot span { display: none; }
+  .game-shell[data-mode='touch'] .mini-map-foot svg { width: 13px; height: 13px; }
+  .game-shell[data-mode='touch'] .case-tracker { padding: 7px 9px 6px; border-radius: 10px; background: #111915ed; }
+  .game-shell[data-mode='touch'] .case-tracker h2 { overflow-wrap: anywhere; }
+
+  .game-shell[data-mode='touch'] .touch-movement {
+    width: auto; grid-template-columns: var(--touch-stick-size) var(--touch-gear-size); align-items: end;
+  }
+  .game-shell[data-mode='touch'] .touch-gear { grid-area: 1 / 2; grid-template-columns: var(--touch-gear-size); }
+  .game-shell[data-mode='touch'] .touch-stick {
+    grid-area: 1 / 1; border-color: #e1c78c8c; background: radial-gradient(circle,#111a16a6 40%,#1f2a21c9 40% 71%,#111a17dc 72%);
+    box-shadow: inset 0 0 0 4px #0b151049,0 5px 15px #090e0bb8;
+  }
+  .game-shell[data-mode='touch'] .touch-stick > span { bottom: 6px; }
+  .game-shell[data-mode='touch'] .touch-stick i { border-color: #e5cc94cf; background: radial-gradient(circle at 40% 32%,#6a664c,#3a3c2bee 76%); }
+  .game-shell[data-mode='touch'] .touch-stick[data-held] { border-color: #f2d493; }
+  .game-shell[data-mode='touch'] .touch-stick[data-held] i { background: #605c40; }
+  .game-shell[data-mode='touch'] .touch-key:not(.touch-use) { border-radius: 12px; }
+  .game-shell[data-mode='touch'] .touch-key svg { width: 21px; height: 21px; }
+  .game-shell[data-mode='touch'] .touch-gear .touch-key svg { width: 17px; height: 17px; }
+  .game-shell[data-mode='touch'] .touch-key span { font-size: 11px; }
+  .game-shell[data-mode='touch'] .touch-use span { font-size: 13px; }
+  .game-shell[data-mode='touch'] .touch-use:disabled { opacity: .6; }
+  .game-shell[data-mode='touch'] .interact-prompt { top: calc(50% + 16px); max-width: min(263px,var(--land-note-width)); border-radius: 8px; }
+  .game-shell[data-mode='touch'] .interact-label { font-size: 13px; }
+
+  .game-shell[data-mode='touch']:not([data-story]) :is(.evidence-note,.voice-caption,.haunt-clue) {
+    left: calc(var(--land-note-start) + var(--land-note-width) / 2);
+    bottom: var(--touch-bottom); width: min(360px,var(--land-note-width));
+    transform: translateX(-50%); margin: 0;
+  }
+  .game-shell[data-mode='touch'] .evidence-note { padding: 6px 9px; max-height: min(86px,24dvh); overflow: hidden; border-radius: 6px; }
+  .game-shell[data-mode='touch'] .evidence-note h2 { font-size: 17px; margin-block: 1px 2px; }
+  .game-shell[data-mode='touch'] .evidence-note p { font-size: 11px; line-height: 1.45; }
+  .game-shell[data-mode='touch']:not([data-story]):has(.evidence-note:not([hidden])) :is(.haunt-clue,.voice-caption) {
+    bottom: calc(var(--touch-bottom) + min(92px,26dvh));
+  }
+  .game-shell[data-mode='touch'] .hud-toast { top: calc(var(--touch-top) + var(--land-tool) + 7px); right: var(--touch-right); font-size: 11px; }
+
+  /* The album, contacts and keypad share one wide handset. The sidebar stays
+     within reach even when a transcript or gallery needs to scroll. */
+  .game-shell[data-mode='touch'] :is(.handset,.map-dialog,.tape-recorder,.radio-panel,.new-game-confirm) {
+    position: fixed; inset: var(--touch-top) var(--touch-right) var(--touch-bottom) var(--touch-left);
+    max-width: var(--land-safe-width); max-height: var(--land-safe-height);
+  }
+  .game-shell[data-mode='touch'] .handset[open] {
+    width: min(676px,var(--land-safe-width)); height: min(380px,var(--land-safe-height));
+    display: grid; grid-template-columns: clamp(122px,23vw,165px) minmax(0,1fr); grid-template-rows: minmax(0,1fr);
+    border-radius: 17px; overflow: hidden;
+  }
+  .game-shell[data-mode='touch'] .phone-rail {
+    padding: 9px; background: #141d19; border-inline-end: 1px solid #d2c49a39;
+    overflow: auto; overscroll-behavior: contain;
+  }
+  .game-shell[data-mode='touch'] .handset .phone-status { flex-wrap: wrap; gap: 4px 7px; padding: 0 2px 3px; font-size: 9px; }
+  .game-shell[data-mode='touch'] .handset .phone-head { gap: 3px; padding: 0 0 7px; }
+  .game-shell[data-mode='touch'] .phone-brand { display: none; }
+  .game-shell[data-mode='touch'] .phone-head h2 { font-size: clamp(16px,2.6vw,20px); margin: 0; }
+  .game-shell[data-mode='touch'] .phone-close { width: 44px; height: 44px; flex: 0 0 44px; border-radius: 10px; }
+  .game-shell[data-mode='touch'] .handset .phone-tabs {
+    grid-template-columns: repeat(2,minmax(0,1fr)); gap: 4px; margin: 0; padding: 0; border: 0; background: none;
+  }
+  .game-shell[data-mode='touch'] .phone-tabs button {
+    display: grid; align-content: center; justify-items: center; gap: 3px; min-height: 44px; padding: 2px;
+    border: 1px solid #d0c4a22c; font-size: 11px; background-color: #222d27;
+  }
+  .game-shell[data-mode='touch'] .phone-tabs button[aria-pressed='true'] { background-color: #455544; border-color: #b2c09188; }
+  .game-shell[data-mode='touch'] .phone-tabs button svg {
+    display: block; width: 16px; height: 16px; fill: none; stroke: currentColor;
+    stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round;
+  }
+  .game-shell[data-mode='touch'] .phone-tabs button[data-phone-tab='dial'] svg { stroke-width: 2.5; }
+  .game-shell[data-mode='touch'] .phone-foot { display: none; }
+  .game-shell[data-mode='touch'] .phone-workspace { padding: 12px; overflow: auto; overscroll-behavior: contain; }
+  .game-shell[data-mode='touch'] .phone-content { padding: 0; }
+  .game-shell[data-mode='touch'] .phone-dial {
+    grid-template-columns: minmax(106px,.82fr) minmax(145px,1.18fr); grid-template-rows: auto minmax(0,1fr);
+    grid-template-areas: 'number keys' 'call keys'; align-items: start; gap: 8px 12px;
+  }
+  .game-shell[data-mode='touch'] .phone-dial-readout { grid-area: number; min-width: 0; }
+  .game-shell[data-mode='touch'] .phone-dial-number { padding-inline: 4px; letter-spacing: .06em; }
+  .game-shell[data-mode='touch'] .phone-dial-keys { grid-area: keys; }
+  .game-shell[data-mode='touch'] .phone-dial-call { grid-area: call; }
+  .game-shell[data-mode='touch'] .phone-message { margin: 7px 0 0; }
+  .game-shell[data-mode='touch'] .photo-card img { height: clamp(70px,30dvh,125px); }
+  .game-shell[data-mode='touch'] .phone-viewfinder { aspect-ratio: auto; height: min(150px,48dvh); }
+  .game-shell[data-mode='touch'] .phone-content :is(.phone-contact,.phone-primary,.phone-secondary) { min-height: 44px; }
+
+  .game-shell[data-mode='touch'] .map-dialog[open] {
+    display: grid; grid-template-columns: minmax(0,1fr) minmax(116px,26%); grid-template-rows: auto minmax(0,1fr);
+    width: min(774px,var(--land-safe-width)); height: min(470px,var(--land-safe-height));
+    padding: 9px 12px; gap: 7px 10px; overflow: hidden;
+  }
+  .game-shell[data-mode='touch'] .map-dialog-head { grid-column: span 2; }
+  .game-shell[data-mode='touch'] .map-dialog-head h2 { font-size: clamp(22px,4vw,33px); margin: 0; }
+  .game-shell[data-mode='touch'] .atlas-surface { min-height: 0; height: 100%; }
+  .game-shell[data-mode='touch'] .map-dialog-foot {
+    padding-inline-start: 0; justify-content: safe center; align-items: flex-start; flex-direction: column;
+    overflow: auto; overscroll-behavior: contain;
+  }
+
+  .game-shell[data-mode='touch'] :is(.settings-box,.journal) {
+    top: calc(var(--touch-top) + var(--land-tool) + 7px);
+    width: min(365px,var(--land-safe-width)); max-height: calc(var(--land-safe-height) - var(--land-tool) - 7px);
+    padding-block: 0 12px; border-radius: 12px;
+  }
+  .game-shell[data-mode='touch'] :is(.settings-head,.journal-head) {
+    position: sticky; z-index: 1; top: 0; padding-block: 5px; background: #1a221def;
+  }
+  .game-shell[data-mode='touch'] :is(#settings-close,#journal-close) { width: 44px; height: 44px; }
+  .game-shell[data-mode='touch'][data-story='menu'] .settings-box { top: var(--touch-top); max-height: var(--land-safe-height); }
+
+  .game-shell[data-mode='touch'] .story-cover:not([data-phase='menu']) {
+    padding: var(--touch-top) var(--touch-right) var(--touch-bottom) var(--touch-left); gap: 8px;
+  }
+  .game-shell[data-mode='touch'] .story-main { width: min(435px,52%); }
+  .game-shell[data-mode='touch'] .story-main h1 { font-size: clamp(23px,7.7dvh,39px); }
+  .game-shell[data-mode='touch'] .story-copy { font-size: clamp(12px,1.8vw,15px); }
+  .game-shell[data-mode='touch'][data-story='escape'] .voice-caption {
+    inset: var(--touch-top) var(--touch-right) auto auto; width: min(265px,39vw); font-size: 11px;
+  }
+  .game-shell[data-mode='touch'] .story-cover[data-phase='menu'] {
+    background: linear-gradient(90deg,#0b120ff5 0%,#0d1613d9 33%,#1017133d 65%,#0b100e4f),linear-gradient(0deg,#080e0dd6,transparent 40%);
+  }
+  .game-shell[data-mode='touch'] .main-menu {
+    padding: var(--touch-top) var(--touch-right) var(--touch-bottom) var(--touch-left);
+    gap: clamp(8px,3dvh,20px);
+  }
+  .game-shell[data-mode='touch'] .menu-header { padding-bottom: 8px; }
+  .game-shell[data-mode='touch'] .menu-emblem svg { width: 27px; height: 27px; }
+  .game-shell[data-mode='touch'] .menu-main {
+    display: grid; grid-template-columns: minmax(0,1fr) minmax(188px,43%); align-content: center; column-gap: clamp(14px,3vw,38px);
+    width: min(100%,790px); margin-block: auto;
+  }
+  .game-shell[data-mode='touch'] :is(.menu-chapter,.menu-main h1,.menu-intro) { grid-column: 1; }
+  .game-shell[data-mode='touch'] .menu-chapter { font-size: 12px; }
+  .game-shell[data-mode='touch'] .menu-main h1 { font-size: clamp(38px,min(9vw,14dvh),78px); margin-block: 3px 1px; }
+  .game-shell[data-mode='touch'] .menu-intro { margin: 0; }
+  .game-shell[data-mode='touch'] .menu-choices { grid-area: 1 / 2 / 4 / 3; align-self: center; width: 100%; gap: 6px; }
+  .game-shell[data-mode='touch'] .menu-choice { min-height: 49px; padding: 6px 9px; gap: 8px; border-radius: 9px; }
+  .game-shell[data-mode='touch'] .menu-choice strong { font-size: 22px; }
+  .game-shell[data-mode='touch'] .menu-choice small { font-size: 10px; margin-top: 3px; }
+  .game-shell[data-mode='touch'] .menu-tools { grid-column: 2; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px; margin-top: 7px; }
+  .game-shell[data-mode='touch'] .menu-tools button { padding-inline: 5px; gap: 5px; border-radius: 8px; font-size: 10px; }
+  .game-shell[data-mode='touch'] .menu-tools svg { width: 15px; }
+  .game-shell[data-mode='touch'] .menu-footer { padding-top: 7px; }
+}
+
+/* Leave room for browser toolbars without shrinking the hit targets. The
+   1–9 keys keep their familiar three-column layout beside the last row. */
+@media (orientation: landscape) and (min-width: 550px) and (max-height: 285px) {
+  .game-shell[data-mode='touch'] .phone-dial { grid-template-columns: minmax(100px,.7fr) minmax(191px,1.3fr); }
+  .game-shell[data-mode='touch'] .phone-dial-keys { grid-template-columns: repeat(4,minmax(44px,1fr)); }
+  .game-shell[data-mode='touch'] .phone-dial-clear { grid-area: 1 / 4; }
+  .game-shell[data-mode='touch'] [data-dial-digit='0'] { grid-area: 2 / 4; }
+  .game-shell[data-mode='touch'] .phone-dial-erase { grid-area: 3 / 4; }
+}
+
+/* The gate only appears on touch devices held upright, after the game is ready.
+   Landscape mode is handled by the wide layout above. */
+#orientation-gate { display: none; }
+#orientation-gate[hidden], #orientation-gate [hidden] { display: none !important; }
+@media (pointer: coarse) and (orientation: portrait) {
+  html[data-boot-state='ready'] #orientation-gate {
+    position: fixed; z-index: 100; inset: 0; display: grid; place-items: center; overflow: auto;
+    padding: max(24px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right))
+      max(24px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
+    color: #f5e9d1; text-align: center; overscroll-behavior: contain;
+    background: radial-gradient(ellipse at 50% 38%, #202b21 0%, #0b110d 58%, #050806 100%);
+    font: 16px/1.6 'Noto Sans Devanagari', system-ui, sans-serif;
+  }
+}
+.orientation-card { width: min(100%, 430px); margin: auto; padding: 20px 0; }
+.orientation-phone {
+  position: relative; width: 64px; height: 112px; margin: 0 auto 26px;
+  border: 2px solid #d9bd8d; border-radius: 14px;
+  box-shadow: 0 0 40px #d9bd8d26, inset 0 0 0 3px #0b110d;
+  animation: orientation-turn 2.8s ease-in-out infinite;
+}
+.orientation-phone::before {
+  content: ""; position: absolute; inset: 8px 6px; border-radius: 7px;
+  background: linear-gradient(160deg, #35432f, #111813);
+}
+.orientation-phone::after {
+  content: ""; position: absolute; left: 50%; bottom: 5px; width: 14px; height: 2px;
+  border-radius: 99px; background: #d9bd8d99; transform: translateX(-50%);
+}
+.orientation-eyebrow {
+  margin: 0 0 10px; color: #c9a978; font: 500 10px/1.4 'IBM Plex Mono', monospace;
+  letter-spacing: .24em; text-transform: uppercase;
+}
+.orientation-card h2 { margin: 0 0 10px; font: 600 clamp(28px, 8vw, 40px)/1.2 'Noto Serif Devanagari', Georgia, serif; }
+.orientation-card p { max-width: 34ch; margin: 0 auto 22px; color: #c8bca5; font-size: 14px; }
+.orientation-button {
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  min-height: 48px; padding: 10px 20px; border: 1px solid #e6bc83; border-radius: 3px;
+  background: #e6bc83; color: #17180f; cursor: pointer; box-shadow: 0 10px 30px #0008;
+  font: 600 14px/1.2 'Noto Sans Devanagari', system-ui, sans-serif;
+}
+.orientation-button:hover { background: #f4d19e; }
+.orientation-button:disabled { opacity: .65; cursor: wait; }
+.orientation-button svg {
+  width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor;
+  stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+}
+.orientation-hint {
+  margin: 18px 0 0; color: #7f8b7c; font: 400 10px/1.5 'IBM Plex Mono', monospace;
+  letter-spacing: .08em; text-transform: uppercase;
+}
+@keyframes orientation-turn { 0%,12%{transform:rotate(0)} 42%,62%{transform:rotate(90deg)} 92%,100%{transform:rotate(0)} }
+@media (prefers-reduced-motion: reduce) {
+  .orientation-phone { animation: none; transform: rotate(90deg); }
+}

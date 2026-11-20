@@ -1,0 +1,78 @@
+.handset {
+  width:min(392px, calc(100% - 28px)); margin:auto; max-height:min(calc(100dvh - 22px), 685px); padding:0;
+  color:#f2efe3; background:linear-gradient(152deg,#24312c,#151b20 49%,#111716); border:1px solid #b7b090;
+  border-radius:29px; box-shadow:0 0 0 5px #121916, 0 0 0 6px #bba57676, 0 21px 80px #050805cd;
+  overflow:auto; scrollbar-width:thin; scrollbar-color:#778572 #19201c;
+}
+.handset::backdrop { background:#080e12a6; }
+.phone-status { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:13px 20px 10px; font-size:11px; color:#e8e9d8; }
+.phone-status time, .phone-battery, .phone-code, .phone-brand { font-family:'IBM Plex Mono',monospace; }
+.phone-battery { border:1px solid #b5c8ac86; padding:2px 4px; border-radius:3px; }
+.phone-head { display:flex; justify-content:space-between; padding:0 17px 12px; align-items:center; }
+.phone-brand { letter-spacing:.14em; font-size:9px; color:#b3c0a7; }
+.phone-head h2 { font:600 28px/1.22 'Noto Serif Devanagari',serif; margin:4px 0 0; }
+.phone-close { border-radius:50%; font-size:23px; width:34px; height:34px; }
+.phone-tabs { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:5px; margin:0 15px 10px; padding:4px; border-radius:11px; background:#101815; border:1px solid #ddd5bd23; }
+.phone-tabs button { min-height:36px; background:transparent; color:#d9dac6; border:0; border-radius:7px; cursor:pointer; font-size:12px; }
+.phone-tabs button svg { display:none; }
+.phone-tabs button[aria-pressed='true'] { background:#3b4740; color:#fff3d4; font-weight:600; box-shadow:inset 0 0 0 1px #b7c2a139; }
+.phone-content { padding:3px 15px 0; }
+.phone-section-label, .phone-thread small, .phone-contact small { font-size:11px; color:#bbc7b1; }
+.photo-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin:7px 0 6px; }
+.photo-card { display:grid; align-content:start; gap:5px; padding:0 0 6px; background:#242d29; color:#f0e7d4;
+  border:1px solid #b0b09345; border-radius:8px; text-align:left; font-size:12px; cursor:pointer; overflow:hidden; }
+.photo-card img, .photo-card .phone-code { display:block; width:100%; height:clamp(73px,17vh,112px); object-fit:cover; }
+.photo-card span { padding:0 7px; }
+.phone-code { display:grid; place-content:center; background:#dec69a; color:#222722; font-size:22px; font-weight:600; margin:0; white-space:pre; text-align:center; }
+.photo-card .phone-code { padding-top:25px; }
+.photo-detail { margin:5px 0; display:grid; gap:6px; }
+.photo-detail img { width:100%; max-height:37vh; object-fit:contain; border-radius:8px; background:#141a18; }
+.photo-detail figcaption, .camera-tip { font-size:12px; color:#d9d6be; }
+.photo-detail .phone-code { padding:8px; border-radius:6px; }
+.phone-back { background:none; padding:4px 0; color:#ebd099; border:0; cursor:pointer; }
+.phone-contact-list { display:grid; gap:5px; }
+.phone-contact { display:flex; gap:9px; align-items:center; width:100%; text-align:left; padding:6px 10px; font-size:13px; cursor:pointer;
+  background:#101715a8; border:1px solid #c2c8b126; border-radius:8px; }
+.phone-contact[aria-pressed='true'] { border-color:#b0c8a47a; background:#2c3b32; }
+.phone-avatar { display:block; width:30px; height:30px; border-radius:50%; border:1px solid #c7b3916e; object-fit:cover; object-position:center 27%; flex:none; }
+.phone-contact small { display:block; margin-top:2px; }
+.phone-contact-actions { display:flex; gap:6px; }
+.phone-thread { margin:8px 0; padding:6px 9px; border-left:2px solid #bda070; background:#cecab110; line-height:1.45; }
+.phone-thread p { font-size:12px; margin:2px 0 5px; }
+.phone-primary, .phone-secondary { min-height:40px; border-radius:7px; padding:7px 11px; cursor:pointer; font-size:13px; font-weight:600; }
+.phone-primary { border:1px solid #f4d394; background:#d7b47c; color:#221a11; }
+.phone-secondary { background:#2c3833; border:1px solid #c5c6ac5d; color:#eee6cd; }
+.phone-viewfinder { position:relative; aspect-ratio:1.48; isolation:isolate; max-height:35vh; overflow:hidden; background:#080b0a; border:1px solid #b6beab69; border-radius:8px; }
+.phone-viewfinder img { width:100%; height:100%; object-fit:contain; }
+.phone-viewfinder small { position:absolute; inset:7px auto auto 8px; background:#0e1410be; padding:3px 6px; font-size:10px; }
+.phone-frame-box { position:absolute; inset:24% 24%; border:1px dashed #ece3bdcc; border-radius:5px; }
+.shutter-button { display:block; margin:6px auto 3px; padding-inline:19px; }
+.phone-message { margin:7px 15px 1px; color:#ffdda1; font-size:12px; line-height:1.55; }
+.phone-message:empty { display:none; }
+.phone-foot { display:flex;align-items:center;justify-content:center;gap:7px;padding:12px 8px;color:#a8b6a5;font-size:9px; }
+.phone-foot span { width:16px;height:2px;border-radius:3px;background:#b2bdb0; }
+
+.phone-dial { display:grid; gap:9px; }
+.phone-dial-readout { display:grid; gap:4px; }
+.phone-dial-number {
+  width:100%; min-height:44px; padding:8px 10px; border:1px solid #87998689; border-radius:8px;
+  background:#0f1715; color:#f4e9d0; text-align:center; letter-spacing:.12em;
+  font:500 clamp(17px,4vw,22px)/1.25 'IBM Plex Mono','Noto Sans Devanagari',monospace;
+}
+.phone-dial-number::placeholder { color:#a2b2a1; font:400 13px 'Noto Sans Devanagari',sans-serif; letter-spacing:normal; }
+.phone-dial-keys { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:5px; }
+.phone-dial-keys button {
+  min-height:44px; padding:4px; background:#252f2a; color:#f4ead5; border:1px solid #bdc6ad49;
+  border-radius:7px; cursor:pointer; font:500 17px 'IBM Plex Mono','Noto Sans Devanagari',monospace;
+}
+.phone-dial-keys .phone-dial-tool { color:#cad7c5; font-size:13px; }
+.phone-dial-call { min-height:44px; background:#bcce9d; border-color:#d9e8af; color:#162219; }
+.phone-dial :is(button,input):focus-visible { outline:2px solid #f9d095; outline-offset:2px; }
+.phone-dial button:not(:disabled):hover { filter:brightness(1.19); }
+.phone-dial button:disabled { opacity:.58; cursor:not-allowed; }
+@media(max-height:600px){
+  .handset:has(.phone-dial) .phone-status { padding-block:9px 5px; }
+  .handset:has(.phone-dial) .phone-head { padding-bottom:7px; }
+  .handset:has(.phone-dial) .phone-tabs { margin-bottom:6px; }
+  .handset:has(.phone-dial) .phone-foot { padding-block:7px; }
+}

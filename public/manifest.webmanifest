@@ -1,0 +1,19 @@
+{
+  "name": "सूना गाँव · Satrod Kalan",
+  "short_name": "सूना गाँव",
+  "description": "सातरोड कलां में कृष की गाड़ी रुक गई। गाँव, जंगल और नहर के पार पाँच आसान मिशन पूरे करो।",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#0b110f",
+  "theme_color": "#101713",
+  "icons": [
+    {
+      "src": "./mark.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

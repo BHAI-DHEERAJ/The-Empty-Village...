@@ -1,0 +1,73 @@
+.game-shell[data-mode='touch'] .settings-box { z-index:6; }
+.voice-caption { position:absolute; z-index:4; width:min(402px,calc(100% - 2 * var(--edge))); bottom:calc(var(--v-edge) + 128px); left:50%; transform:translateX(-50%); padding:8px 11px 5px;
+  color:#fae4d9; background:#1b1015e8; border-left:2px solid #ba6255; font-size:12px; text-align:center; pointer-events:none; box-shadow:0 4px 18px #07040874; }
+.voice-caption small { display:block; color:#eea98f; font-size:9px; margin-bottom:3px; }
+.game-shell[data-panel] .voice-caption { visibility:hidden; }
+.tape-recorder { width:min(435px,calc(100% - 26px)); max-height:calc(100dvh - 24px - env(safe-area-inset-bottom)); margin:auto; overflow:auto; padding:16px;
+  overscroll-behavior:contain; color:#f7e5cc; border:1px solid #b9a48288; border-radius:7px; background:#1b1c1b; box-shadow:0 20px 90px #030303d4; }
+.tape-recorder::backdrop { background:#07080bd6; }
+.tape-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+.tape-head small { color:#d89e79; font-size:11px; }
+.tape-head h2 { margin:6px 0 10px; font:600 clamp(20px,4vw,26px)/1.32 'Noto Serif Devanagari',serif; }
+.tape-head .icon-button { flex:none; font-size:24px; min-width:40px; min-height:40px; }
+.tape-deck { position:relative; display:grid; grid-template-columns:minmax(0,1.6fr) minmax(0,.85fr); gap:8px; padding:10px;
+  background:linear-gradient(120deg,#4a4e47,#212522); border:1px solid #8996847d; border-radius:6px; box-shadow:inset 0 0 0 3px #12151296; }
+.tape-strip { grid-column:span 2; display:flex; align-items:center; gap:5px; font:400 clamp(7px,2.3vw,10px)/1 'IBM Plex Mono',monospace; color:#eee3c5; padding-bottom:6px; border-bottom:1px solid #a1977c79; }
+.tape-strip i { opacity:.46; width:6px; height:6px; }
+.tape-deck[data-playing] .tape-strip i { opacity:1; }
+.tape-window { display:flex; align-items:center; justify-content:center; gap:8px; background:#161c1f; padding:10px 6px; border-radius:3px; border:2px solid #747663c2; }
+.tape-window i { position:relative; width:34px; height:34px; flex:none; border:4px dotted #cfc4ab; background:#66513f; border-radius:50%; box-shadow:inset 0 0 0 4px #332b25; }
+.tape-window b { height:10px; width:29%; background:#352923; border:1px solid #8d725f9c; }
+.tape-deck[data-playing] .tape-window i { animation:reel 1.8s linear infinite; }
+@keyframes reel { to { transform:rotate(360deg); } }
+.tape-speaker { min-width:0; border:1px solid #686d63; border-radius:3px; background:repeating-linear-gradient(0deg,#191a1a 0 2px,#585e54 2px 4px); }
+.tape-position { display:flex; justify-content:space-between; gap:10px; align-items:center; margin:8px 0; color:#ddcfbc; }
+.tape-position time { flex:none; font:400 10px/1 'IBM Plex Mono',monospace; }
+.tape-position progress { width:100%; height:4px; accent-color:#dba476; }
+.tape-actions { display:flex; gap:8px; }
+.tape-actions button { flex:1; min-height:44px; font-size:12px; }
+.tape-actions button:first-child { background:#664c37; }
+.tape-status { color:#d9ad88; font-size:11px; margin:9px 0 6px; }
+.tape-transcript { margin:0; padding:10px; background:#24221b; border-left:2px solid #c39369; color:#ece1ce; font-size:13px; line-height:1.58; }
+.tape-read,.tape-replay { display:block; width:100%; padding:10px; min-height:42px; margin-top:9px; color:#f4d7aa; border:1px solid #b9a48267; background:#272824; border-radius:3px; cursor:pointer; }
+.tape-replay { font-size:11px; text-align:start; }
+@media(max-height:440px) and (orientation:landscape){
+  .tape-recorder { padding:10px 13px; }
+  .tape-head h2 { margin:2px 0 5px; }
+}
+@media(prefers-reduced-motion:reduce){.tape-deck[data-playing] .tape-window i { animation:none; }}
+.game-shell[data-stalker-showing] .haunt-clue { visibility:hidden; }
+.game-shell[data-stalker-showing] .voice-caption { bottom:calc(var(--v-edge) + 36px); }
+.game-shell[data-story] :is(.evidence-note,.haunt-clue,.hud-toast) { visibility:hidden; }
+
+.journal-ending { margin:0 0 13px; padding:10px 12px; border-left:2px solid #b9d693; background:#99b36b1c; color:#e0edc6; font-size:13px; }
+.journal-ending p { margin:3px 0 0; font-size:12px; }
+
+/* Leave the chase viewport clear; only the last run gets a timer. */
+.story-cover:is([data-phase='final-repair'],[data-phase='escape'])::before {
+  content: ''; position: absolute; inset: 0; background: #070b0d; opacity: var(--story-fade,0); pointer-events: none;
+}
+.story-run {
+  display: inline-flex; align-items: center; gap: 7px; margin-bottom: 8px; padding: 4px 8px;
+  border: 1px solid #bda06b96; border-radius: 4px; background: #28231aeb; color: #ffe5b0;
+  font-size: 11px; font-weight: 600; font-variant-numeric: tabular-nums;
+}
+.story-run[data-clear] { border-color: #a6c48888; background: #19271ded; color: #e1edcd; }
+.story-run time { padding-inline-start: 7px; border-inline-start: 1px solid #acc88f64; font: 400 10px 'IBM Plex Mono',monospace; }
+.story-cover[data-phase='ending'] {
+  background: linear-gradient(90deg,#0c1412d4,transparent 66%),linear-gradient(0deg,#080f0df7,transparent 65%);
+}
+.story-cover[data-phase='ending'] h1 { font-size: clamp(31px,min(5vw,10dvh),60px); }
+.story-cover[data-phase='ending'] .enter-button { min-height: 48px; }
+.game-shell[data-story='escape'] .voice-caption {
+  z-index: 14; bottom: max(21px,calc(env(safe-area-inset-bottom) + 8px)); left: auto; right: var(--edge);
+  width: min(330px,32vw); transform: none; background: #1b1419e8;
+}
+@media (max-width: 840px) {
+  .game-shell[data-story='escape'] .voice-caption {
+    top: max(14px,calc(env(safe-area-inset-top) + 8px)); bottom: auto;
+    width: min(264px,calc(100% - 2 * var(--edge))); font-size: 11px;
+  }
+}
+
+.tape-strip i { display:inline-block; background:#df7359; border-radius:50%; box-shadow:0 0 10px #ee6f4480; }
