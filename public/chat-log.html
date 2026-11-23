@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>सूना गाँव · सहेजी हुई बातचीत</title>
+  <style>
+    :root { color-scheme: dark; font-family: 'IBM Plex Mono', ui-monospace, monospace; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; color: #d9d2c2; background: radial-gradient(circle at 50% -10%, #26302b, #090b0b 62%); }
+    main { width: min(860px, 92vw); margin: 0 auto; padding: 48px 0 80px; }
+    header { border-bottom: 1px solid #6d603f66; padding-bottom: 22px; margin-bottom: 26px; }
+    .eyebrow { color: #a98f5a; letter-spacing: .18em; font-size: 11px; text-transform: uppercase; }
+    h1 { font-size: clamp(28px, 5vw, 48px); margin: 8px 0 6px; font-weight: 400; color: #f0e6cf; }
+    p { line-height: 1.7; color: #9f9c91; }
+    button { border: 1px solid #8a764c; background: #151a18; color: #e6d7b4; padding: 9px 16px; cursor: pointer; font: inherit; }
+    button:hover { background: #2b302a; }
+    #log { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+    #log li { border: 1px solid #ffffff12; background: #ffffff07; padding: 12px 16px; }
+    #log li[data-kind='whisper'] { border-color: #7f4f7e55; color: #c4a6c8; font-style: italic; }
+    #log li[data-kind='system'] { border-color: #4f6b7e55; color: #9fb6c4; }
+    time { color: #807963; font-size: 11px; margin-right: 12px; }
+    b { color: #e5c98d; font-weight: 500; }
+    small { display: block; color: #6e6c62; margin-top: 6px; }
+    .empty { border: 1px dashed #ffffff20; padding: 32px; text-align: center; color: #8c887b; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Satrod Kalan · field archive</div>
+      <h1>सहेजी हुई बातचीत</h1>
+      <p>खेल के दौरान खिलाड़ियों के भेजे गए संदेश यहाँ सुरक्षित रहते हैं। हर कोई इसे बाद में देख सकता है।</p>
+      <button id="refresh" type="button">ताज़ा करो</button>
+      <span id="status" class="eyebrow" role="status"></span>
+    </header>
+    <ul id="log"></ul>
+  </main>
+  <script>
+    const log=document.getElementById('log'),status=document.getElementById('status');
+    const time=value=>new Date(value).toLocaleString('hi-IN',{dateStyle:'medium',timeStyle:'short'});
+    async function load(){
+      status.textContent='लोड हो रहा है…';
+      try{
+        const data=await (await fetch('/api/log',{cache:'no-store'})).json();
+        const rows=(data.messages??[]).slice().reverse();
+        status.textContent=`${data.count??rows.length} संदेश · ${new Date().toLocaleTimeString('hi-IN')}`;
+        log.replaceChildren(...(rows.length?rows.map(m=>{
+          const li=document.createElement('li');li.dataset.kind=m.kind||'chat';
+          const stamp=document.createElement('time');stamp.textContent=time(m.at);
+          const name=document.createElement('b');name.textContent=m.name;
+          const text=document.createElement('span');text.textContent=` ${m.text}`;
+          li.append(stamp,name,text);
+          if(m.location){const where=document.createElement('small');where.textContent=`📍 ${m.location}`;li.append(where);}
+          return li;
+        }):[Object.assign(document.createElement('li'),{className:'empty',textContent:'अभी कोई संदेश नहीं। पहला संदेश लिखने वाले बनो।'})]));
+      }catch(error){status.textContent='लॉग नहीं मिला — chat server चालू है?';}
+    }
+    document.getElementById('refresh').addEventListener('click',load);
+    load();
+  </script>
+</body>
+</html>
